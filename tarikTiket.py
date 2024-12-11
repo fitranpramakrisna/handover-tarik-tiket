@@ -3,7 +3,8 @@ import pandas as pd
 from datetime import datetime
 from date_convert import date_eng_to_indo
 
-url = 'https://servant-be.ilcs.co.id/ticket/service_now/list?page=1&perPage=30&status=openteam&search='
+url = 'https://servant-be.ilcs.co.id/ticket/service_now/incident/list?page=1&perPage=30&status=openteam '
+
 
 # Masukkan token Bearer yang diambil dari header Authorization
 headers = {
