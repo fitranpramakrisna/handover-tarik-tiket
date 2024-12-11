@@ -1,13 +1,14 @@
 import requests
 import pandas as pd
 from datetime import datetime
+from date_convert import date_eng_to_indo
 
 url = 'https://servant-be.ilcs.co.id/ticket/service_now/list?page=1&perPage=30&status=openteam&search='
 
 # Masukkan token Bearer yang diambil dari header Authorization
 headers = {
     'Authorization': 'Bearer ZgZcYt8LHmjmDC1QKLN4wbwoTN8NAtVa',
-    'Auth-Token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiODA3ODgyNTEtZmUyZi00M2Y4LTlhNDktMGY0OTJmMDNmMzA5IiwidXNlcm5hbWUiOiJuaWNob2xhcyIsIm5hbWUiOiJOaWNob2xhcyBDaHJpc3Rob2ZlciIsImVtYWlsIjoibmljaG9sYXMuY2hyaXN0aG9mZXJAaWxjcy5jby5pZCIsIm5pcHAiOiIxMTAwMjc3MyIsImluaXRpYWxzX25hbWUiOiJOQ1MiLCJzdGF0dXMiOjEsImFjdGl2ZSI6MSwiaXNsZWFkIjowLCJyb2xlX2lkIjoxLCJyb2xlX25hbWUiOiJMMS9MMiBPcHMiLCJmYXZlb190ZWFtaWQiOjUsInNlcnZpY2Vub3dfZ3JvdXBpZCI6IltcIjRmNTBlYzg5NDc2MmMyOTA0MTVmNzU2OTExNmQ0MzQxXCJdIiwic3dhZ19pZCI6IjYyODIyOTczNDk5MzItMTYzNTY0OTI0NyIsImlzX3JvbGVoaWRlIjpmYWxzZSwiaWF0IjoxNzI1NzE0NzAxLCJleHAiOjE3MjU3NTc5MDF9.ORq_8ZmXDnx7SThHBv2-rjj0pidR5RjdzJZVt_jgeT0',
+    'Auth-Token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYzg5NTgxOWU4OTZjM2M5Mzg1YzgyMTIzZGYxY2U0OGY6N2RmZjRhNDU4ZjdlY2E5ZmE3YmRhNzRjNTdjOTI4M2MwZGEwYzVkNWVhNmYzMjk2NzEzZTA2OWFmOWFjY2E3NWM4OGIxMTJmZjIxYTQzZGE2NTliNmQ0YWM3ZjVhYjQ5OWVjOWYzYmVmYjdjNzQ2YjU1NTdkMDBkODQwMDc2MmIzYWMzZmU5NjRhYTU1N2E4ZDIwNTM1YTVkMzhiMDEyY2NiMzg1MjBhMzU4MzZlYjJlNjYyZDM5Y2I5OGFjYjM1YjZhYTNiOGI2ZmI1Njk3YzQyZTMxMDY5ZGFlN2EyNzhmZjUxODc5MWViNGY3MGRiNDM5MDJhMWEzMGVkMDFkODY3MjljZGJjMGIwYWU3MjY5NzUzMTAwMDk1ODM0ZjQzYTZiNzJlNTA0Y2JhOTllZDNiYzk3MzA4ZTBhZjcwMjlhYzNhZjVkNWQ1MjljNjM2OWUyNWI0YzRiOTJiY2ZmM2RhOWY2MWNjMjFjZDNkYWY2NjQwMWI5OWY4OTk0ZGE3NzA4YzVjODU4MjY5NTk3MGIzY2E3YjQ1ZDU2MWIzNzFjODcyMDcyMzhhZTQ1NmJjNThhNjBhMDcxNGFmOTkwOTVhNTNkOTgwZGVmNTVkNTcyNjA1M2JiMzgzMDUxYWEyMTk2OTEwYjU5YTEyYWI3OGFjMzMyYmMyMTYxNmQ0YmE5NWM3YmU4ZjYzYjkyZDRhNDUxYzNkMjgyYTdiMjVlMjNjMGMyMmJjZDQ4YTMzMTA5NGQ1MmY0YTJiZWM4YTRkNDhkMzFmYjViYzMyYThkYWE4ZmExNzAxNjk4ZjVhNzYxNDBjMDY1ZmU3MTk2NDQ3NzA2YTgwYmMyYTg0NzJkOTlkNGVmZDRhZTU3YTM3ZTM0OWIyNTI3MzY4YjlmN2QwZDljNjMwZTc5Y2JiMmZlMWYzMzkyMTc2YjU1ODk1Yjg0MzI3NTZhOTRmZTU3OWYwNGQzMGQ1MGE3MDk5N2JkOTgzZGY5ZGIzZmMwYjEyZjJmMzUyNzAyMWMyZjUyYjMzOWZmZmZhZTFlNDJjZDAwYTAzMGQ2ZjY3MzMxYTZhMGJiOWE1NWMzODljZTg3NTNkMTJhODdjNjgwODMwYjNkMjk1NzMyZTc4ODdmZDlhNmU3OTNiMzYyMWUzMmVlMzgzYTAzNjE0OTQwZDAxNmMxZGVkZGVlOWFiNzFmNTMwMTAiLCJpYXQiOjE3MzM1MzUyMTAsImV4cCI6MTczMzU3ODQxMH0.U7LgT09jFV0KChX8OGmKTWjjsrCByzUEl8WuRbxQgZA',
     'Content-Type': 'application/json'
 }
 
@@ -56,6 +57,10 @@ try:
 
         # Mengambil tanggal saat ini
         current_date = datetime.now().strftime("%A, %d %B %Y")
+        
+        day = date_eng_to_indo(current_date.split(',')[0])
+        current_date = f"{day},{current_date.split(',')[1]}"
+        # print(current_date)
 
         # Menambahkan header
         output_lines.append(greeting)
@@ -63,7 +68,7 @@ try:
         output_lines.append(shift_message)
         output_lines.append(current_date)
         output_lines.append("")
-        output_lines.append("Fitran, Nicho, Sony")
+        output_lines.append("Inoy, Fitran")
         output_lines.append("")
         output_lines.append("======== HANDOVER CASE ========")
         output_lines.append("")
